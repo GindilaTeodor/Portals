@@ -8,6 +8,14 @@ public class FirstPersonCameraRotation : MonoBehaviour
     public GameObject firstPortalPrefab; // Prefab for the first portal
     [SerializeField]
     public GameObject secondPortalPrefab; // Prefab for the second portal
+    [SerializeField]
+    public GameObject firstPortalPrefabGround; // Prefab for the first portal
+    [SerializeField]
+    public GameObject secondPortalPrefabGround; // Prefab for the second portal
+    [SerializeField]
+    public GameObject firstPortalPrefabCeiling; // Prefab for the first portal
+    [SerializeField]
+    public GameObject secondPortalPrefabCeiling; // Prefab for the second portal
 
     public float Sensitivity
     {
@@ -71,15 +79,38 @@ public class FirstPersonCameraRotation : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
         {
             // Instantiate the first portal prefab at the hit point
-            GameObject portal = Instantiate(firstPortalPrefab, hit.point, Quaternion.identity);
+            if (hit.collider.CompareTag("Wall"))
+            {
+                GameObject portal = Instantiate(firstPortalPrefab, hit.point, Quaternion.identity);
 
-            // Calculate rotation to face the player and rotate 90 degrees in the X-axis
-            Vector3 playerDirection = transform.position - hit.point;
-            Quaternion playerRotation = Quaternion.LookRotation(playerDirection);
-            playerRotation *= Quaternion.Euler(0, -90, 0); // Rotate 90 degrees in the X-axis
+                // Calculate rotation to face the player and rotate 90 degrees in the X-axis
+                Vector3 playerDirection = transform.position - hit.point;
+                Quaternion playerRotation = Quaternion.LookRotation(playerDirection);
+                playerRotation *= Quaternion.Euler(0, -90, 0); // Rotate 90 degrees in the X-axis
 
-            // Apply rotation to face the player
-            portal.transform.rotation = playerRotation;
+                // Apply rotation to face the player
+                portal.transform.rotation = playerRotation;
+            }
+
+            else if (hit.collider.CompareTag("Ground"))
+            {
+                // Instantiate the ground portal prefab at the hit point
+                GameObject portal = Instantiate(firstPortalPrefabGround, hit.point, Quaternion.identity);
+                Quaternion portalRotation = Quaternion.Euler(0, 0, 90); // Adjust the rotation as needed
+
+                // Apply rotation to the portal
+                portal.transform.rotation = portalRotation;
+
+            }
+            else if (hit.collider.CompareTag("Ceiling"))
+            {
+                // Instantiate the ground portal prefab at the hit point
+                GameObject portal = Instantiate(firstPortalPrefabCeiling, hit.point, Quaternion.identity);
+                Quaternion portalRotation = Quaternion.Euler(0, 0, -90); // Adjust the rotation as needed
+
+                // Apply rotation to the portal
+                portal.transform.rotation = portalRotation;
+            }
         }
     }
 
@@ -89,18 +120,42 @@ public class FirstPersonCameraRotation : MonoBehaviour
 
         // Perform raycast on right click
         RaycastHit hit;
+        float margin = 0.1f; // Adjust this value as needed to define the margin distance
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
         {
-            // Instantiate the second portal prefab at the hit point
-            GameObject portal = Instantiate(secondPortalPrefab, hit.point, Quaternion.identity);
+            Debug.Log(hit.collider.gameObject.tag);
+            if (hit.collider.CompareTag("Wall"))
+            {
+                GameObject portal = Instantiate(secondPortalPrefab, hit.point, Quaternion.identity);
 
-            // Calculate rotation to face the player and rotate 90 degrees in the X-axis
-            Vector3 playerDirection = transform.position - hit.point;
-            Quaternion playerRotation = Quaternion.LookRotation(playerDirection);
-            playerRotation *= Quaternion.Euler(0, -90, 0); // Rotate 90 degrees in the X-axis
+                // Calculate rotation to face the player and rotate 90 degrees in the X-axis
+                Vector3 playerDirection = transform.position - hit.point;
+                Quaternion playerRotation = Quaternion.LookRotation(playerDirection);
+                playerRotation *= Quaternion.Euler(0, -90, 0); // Rotate 90 degrees in the X-axis
 
-            // Apply rotation to face the player
-            portal.transform.rotation = playerRotation;
+                // Apply rotation to face the player
+                portal.transform.rotation = playerRotation;
+            }
+
+            else if (hit.collider.CompareTag("Ground"))
+            {
+                // Instantiate the ground portal prefab at the hit point
+                GameObject portal = Instantiate(secondPortalPrefabGround, hit.point, Quaternion.identity);
+                Quaternion portalRotation = Quaternion.Euler(0, 0, 90); // Adjust the rotation as needed
+
+                // Apply rotation to the portal
+                portal.transform.rotation = portalRotation;
+            }
+            else if (hit.collider.CompareTag("Ceiling"))
+            {
+                // Instantiate the ground portal prefab at the hit point
+                GameObject portal = Instantiate(secondPortalPrefabCeiling, hit.point, Quaternion.identity);
+                Quaternion portalRotation = Quaternion.Euler(0, 0, -90); // Adjust the rotation as needed
+
+                // Apply rotation to the portal
+                portal.transform.rotation = portalRotation;
+
+            }
         }
     }
 
@@ -111,6 +166,16 @@ public class FirstPersonCameraRotation : MonoBehaviour
         {
             Destroy(existingPortal);
         }
+        GameObject existingPortal1 = GameObject.FindWithTag("Portal1Ground");
+        if (existingPortal1 != null)
+        {
+            Destroy(existingPortal1);
+        }
+        GameObject existingPortal2 = GameObject.FindWithTag("Portal1Ceiling");
+        if (existingPortal2 != null)
+        {
+            Destroy(existingPortal2);
+        }
     }
 
         void DestroyPortalIfExists2()
@@ -120,5 +185,15 @@ public class FirstPersonCameraRotation : MonoBehaviour
             {
                 Destroy(existingPortal);
             }
+        GameObject existingPortal1 = GameObject.FindWithTag("Portal2Ground");
+        if (existingPortal1 != null)
+        {
+            Destroy(existingPortal1);
         }
+        GameObject existingPortal2 = GameObject.FindWithTag("Portal2Ceiling");
+        if (existingPortal2 != null)
+        {
+            Destroy(existingPortal2);
+        }
+    }
     }

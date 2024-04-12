@@ -7,6 +7,12 @@ TagManager:
   - Ground
   - Portal1
   - Portal2
+  - Wall
+  - Ceiling
+  - Portal1Ground
+  - Portal2Ground
+  - Portal1Ceiling
+  - Portal2Ceiling
   layers:
   - Default
   - TransparentFX
