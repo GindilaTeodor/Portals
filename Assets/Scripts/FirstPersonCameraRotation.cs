@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FirstPersonCameraRotation : MonoBehaviour
 {
+    [Header ("Portals")]
     [SerializeField]
     public GameObject firstPortalPrefab; // Prefab for the first portal
     [SerializeField]
@@ -16,6 +17,13 @@ public class FirstPersonCameraRotation : MonoBehaviour
     public GameObject firstPortalPrefabCeiling; // Prefab for the first portal
     [SerializeField]
     public GameObject secondPortalPrefabCeiling; // Prefab for the second portal
+
+
+    [Header("Player Components")]
+    [SerializeField]
+    public GameObject headObject;
+    [SerializeField]
+    public GameObject bodyObject;
 
     public float Sensitivity
     {
@@ -58,6 +66,7 @@ public class FirstPersonCameraRotation : MonoBehaviour
             PerformRightClickAction();
         }
     }
+    
 
     void HandleRotation()
     {
@@ -66,8 +75,9 @@ public class FirstPersonCameraRotation : MonoBehaviour
         rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
         var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
         var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
-
-        transform.localRotation = xQuat * yQuat;
+        
+        headObject.transform.localRotation= xQuat * yQuat;
+        bodyObject.transform.localRotation= xQuat;
     }
 
     void PerformLeftClickAction()
@@ -76,7 +86,7 @@ public class FirstPersonCameraRotation : MonoBehaviour
 
         // Perform raycast on left click
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(headObject.transform.position, headObject.transform.forward, out hit, Mathf.Infinity))
         {
             // Instantiate the first portal prefab at the hit point
             if (hit.collider.CompareTag("Wall"))
@@ -120,8 +130,7 @@ public class FirstPersonCameraRotation : MonoBehaviour
 
         // Perform raycast on right click
         RaycastHit hit;
-        float margin = 0.1f; // Adjust this value as needed to define the margin distance
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(headObject.transform.position, headObject.transform.forward, out hit, Mathf.Infinity))
         {
             Debug.Log(hit.collider.gameObject.tag);
             if (hit.collider.CompareTag("Wall"))

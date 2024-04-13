@@ -9,6 +9,8 @@ public class ObjectCollider : MonoBehaviour
 
     float time = 3;
     private GameObject portal2; // Reference to the second portal
+    [SerializeField]    
+    private float distancePortal;
 
     void Start()
     {
@@ -33,7 +35,7 @@ public class ObjectCollider : MonoBehaviour
                 Vector3 directionFromPortal = portal2.transform.forward;
 
                 // Calculate the position in front of the portal
-                Vector3 newPosition = portal2.transform.position + (directionFromPortal * 10);
+                Vector3 newPosition = portal2.transform.position + (directionFromPortal * distancePortal);
 
                 // Teleport the player to the new position
                 transform.position = newPosition; ;
@@ -68,7 +70,7 @@ public class ObjectCollider : MonoBehaviour
                 Vector3 directionFromPortal = portal2.transform.forward;
 
                 // Calculate the position in front of the portal
-                Vector3 newPosition = portal2.transform.position + (directionFromPortal * 10);
+                Vector3 newPosition = portal2.transform.position + (directionFromPortal * distancePortal);
 
                 // Teleport the player to the new position
                 transform.position = newPosition;
@@ -103,7 +105,7 @@ public class ObjectCollider : MonoBehaviour
                 Vector3 directionFromPortal = portal2.transform.forward;
 
                 // Calculate the position in front of the portal
-                Vector3 newPosition = portal2.transform.position + (directionFromPortal * 10);
+                Vector3 newPosition = portal2.transform.position + (directionFromPortal * distancePortal);
 
                 // Teleport the player to the new position
                 transform.position = newPosition;
@@ -138,7 +140,7 @@ public class ObjectCollider : MonoBehaviour
                 Vector3 directionFromPortal = portal2.transform.forward;
 
                 // Calculate the position in front of the portal
-                Vector3 newPosition = portal2.transform.position + (directionFromPortal * 10);
+                Vector3 newPosition = portal2.transform.position + (directionFromPortal * distancePortal);
 
                 // Teleport the player to the new position
                 transform.position = newPosition;
@@ -173,7 +175,7 @@ public class ObjectCollider : MonoBehaviour
                 Vector3 directionFromPortal = portal2.transform.forward;
 
                 // Calculate the position in front of the portal
-                Vector3 newPosition = portal2.transform.position + (directionFromPortal * 10);
+                Vector3 newPosition = portal2.transform.position + (directionFromPortal * distancePortal);
 
                 // Teleport the player to the new position
                 transform.position = newPosition;
@@ -209,7 +211,7 @@ public class ObjectCollider : MonoBehaviour
                 Vector3 directionFromPortal = portal2.transform.forward;
 
                 // Calculate the position in front of the portal
-                Vector3 newPosition = portal2.transform.position + (directionFromPortal * 10);
+                Vector3 newPosition = portal2.transform.position + (directionFromPortal * distancePortal);
 
                 // Teleport the player to the new position
                 transform.position = newPosition;
