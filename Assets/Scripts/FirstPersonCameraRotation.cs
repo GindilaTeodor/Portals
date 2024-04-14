@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FirstPersonCameraRotation : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class FirstPersonCameraRotation : MonoBehaviour
     public GameObject firstPortalPrefabCeiling; // Prefab for the first portal
     [SerializeField]
     public GameObject secondPortalPrefabCeiling; // Prefab for the second portal
+
+    public AudioClip shotAudioClip;
+    private SoundManager audioManager;
 
 
     [Header("Player Components")]
@@ -46,6 +50,8 @@ public class FirstPersonCameraRotation : MonoBehaviour
         // Set Cursor to not be visible
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        audioManager = FindObjectOfType<SoundManager>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     // Update is called once per frame
@@ -66,7 +72,23 @@ public class FirstPersonCameraRotation : MonoBehaviour
             PerformRightClickAction();
         }
     }
-    
+    private void OnDestroy()
+    {
+        // Unregister the OnSceneLoaded method when the script is destroyed
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Check if the player object belongs to the new scene
+        if (!gameObject.scene.Equals(scene))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            // Destroy the player object if it doesn't belong to the new scene
+            Destroy(gameObject);
+        }
+    }
+
 
     void HandleRotation()
     {
@@ -86,6 +108,7 @@ public class FirstPersonCameraRotation : MonoBehaviour
 
         // Perform raycast on left click
         RaycastHit hit;
+        audioManager.PlaySound(shotAudioClip);
         if (Physics.Raycast(headObject.transform.position, headObject.transform.forward, out hit, Mathf.Infinity))
         {
             // Instantiate the first portal prefab at the hit point
@@ -130,6 +153,7 @@ public class FirstPersonCameraRotation : MonoBehaviour
 
         // Perform raycast on right click
         RaycastHit hit;
+        audioManager.PlaySound(shotAudioClip);
         if (Physics.Raycast(headObject.transform.position, headObject.transform.forward, out hit, Mathf.Infinity))
         {
             Debug.Log(hit.collider.gameObject.tag);

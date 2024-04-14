@@ -11,8 +11,13 @@ public class ExitGame : MonoBehaviour
         Application.Quit();
 
     }
-    public void Start()
+    public void StartGame()
     {
         SceneManager.LoadScene("level1");
+    }
+
+    public void StartTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
     }
 }

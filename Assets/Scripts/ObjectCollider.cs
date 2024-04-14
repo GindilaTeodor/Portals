@@ -11,9 +11,12 @@ public class ObjectCollider : MonoBehaviour
     private GameObject portal2; // Reference to the second portal
     [SerializeField]    
     private float distancePortal;
+    public AudioClip warpAudioClip;
+    private SoundManager audioManager;
 
     void Start()
     {
+        audioManager = FindObjectOfType<SoundManager>();
     }
 
     private void Update()
@@ -26,6 +29,7 @@ public class ObjectCollider : MonoBehaviour
 
         if (collision.gameObject.tag == "Portal1" && time > 3)
         {
+            audioManager.PlaySound(warpAudioClip);
             // Update the reference to Portal2
             portal2 = GameObject.FindGameObjectWithTag("Portal2");
 
@@ -63,6 +67,7 @@ public class ObjectCollider : MonoBehaviour
         if (collision.gameObject.tag == "Portal1Ground" && time > 3)
         {
             // Update the reference to Portal2
+            audioManager.PlaySound(warpAudioClip);
             portal2 = GameObject.FindGameObjectWithTag("Portal2");
 
             if (portal2 != null)
@@ -98,6 +103,7 @@ public class ObjectCollider : MonoBehaviour
         if (collision.gameObject.tag == "Portal1Ceiling" && time > 3)
         {
             // Update the reference to Portal2
+            audioManager.PlaySound(warpAudioClip);
             portal2 = GameObject.FindGameObjectWithTag("Portal2");
 
             if (portal2 != null)
@@ -133,6 +139,7 @@ public class ObjectCollider : MonoBehaviour
         if (collision.gameObject.tag == "Portal2" && time > 3)
         {
             // Update the reference to Portal2
+            audioManager.PlaySound(warpAudioClip);
             portal2 = GameObject.FindGameObjectWithTag("Portal1");
 
             if (portal2 != null)
@@ -168,6 +175,7 @@ public class ObjectCollider : MonoBehaviour
         if (collision.gameObject.tag == "Portal2Ceiling" && time > 3)
         {
             // Update the reference to Portal2
+            audioManager.PlaySound(warpAudioClip);
             portal2 = GameObject.FindGameObjectWithTag("Portal1");
 
             if (portal2 != null)
@@ -203,6 +211,7 @@ public class ObjectCollider : MonoBehaviour
         if (collision.gameObject.tag == "Portal2Ground" && time > 3)
         {
             // Update the reference to Portal2
+            audioManager.PlaySound(warpAudioClip);
             portal2 = GameObject.FindGameObjectWithTag("Portal1");
 
             if (portal2 != null)
@@ -242,6 +251,8 @@ public class ObjectCollider : MonoBehaviour
         }
         if (collision.gameObject.tag == "Finish")
         {
+           
+            Destroy(this);
             SceneManager.LoadScene("StartScene");
         }
     }
